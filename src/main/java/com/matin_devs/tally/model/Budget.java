@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "budgets")
@@ -27,7 +27,7 @@ public class Budget {
     private User user;
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Expense> expenseList = new ArrayList<>();
+    private Set<Expense> expenseList = new HashSet<>();
 
     @Builder
     public Budget(Integer frequency, User user) {

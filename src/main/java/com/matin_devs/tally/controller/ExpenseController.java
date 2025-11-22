@@ -20,6 +20,7 @@ public class ExpenseController {
     @PostMapping
     public ResponseEntity<String> addExpense(@RequestBody ExpenseRequest request) {
         // TODO: Best practice to have service and controller use the same function name
+        // TODO: Should check if expense is already added
         Expense expense = expenseService.createExpense(request);
         return ResponseEntity.ok(expense.toString());
     }

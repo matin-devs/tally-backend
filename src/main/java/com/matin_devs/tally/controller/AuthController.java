@@ -25,6 +25,7 @@ public class AuthController {
         try {
             user = userService.getUserByUsername(username);
         } catch (UserNotFoundException e) {
+            // TODO: This should return created not ok as well
             user = userService.createUser(new UserRequest(username));
         }
         return ResponseEntity.ok(user.getId().toString());

@@ -12,7 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -62,8 +62,8 @@ public class BudgetService {
         Budget budget = budgetRepository.getReferenceById(id);
 
         // get all expenses and set to new array
-        ArrayList<Expense> expenses = new ArrayList<>();
-        ArrayList<Long> requestExpenseList = request.getExpenseList();
+        Set<Expense> expenses = budget.getExpenseList();
+        Set<Long> requestExpenseList = request.getExpenseList();
         for (Long expense : requestExpenseList) {
             expenses.add(expenseRepository.getReferenceById(expense));
         }

@@ -16,8 +16,13 @@ public class BudgetController {
 
     @PostMapping
     public ResponseEntity<String> addBudget(@RequestBody BudgetRequest request) {
-        budgetService.addBudget(request);
-        return ResponseEntity.ok("Budget Created for user with id: [" + request.getUserId() + "]");
+        try {
+            budgetService.getBudgetByUserId(request.getUserId());
+            return ResponseEntity.noContent().build();
+        } catch (BudgetNotFoundForUserException e) {
+            budgetService.addBudget(request);
+            return ResponseEntity.ok("Budget Created for user id: [" + request.getUserId() + "]");
+        }
     }
 
     // get Budget from User ID
@@ -32,7 +37,7 @@ public class BudgetController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateBudgetById(@PathVariable Long id, BudgetRequest request) {
+    public ResponseEntity<String> updateBudgetById(@PathVariable Long id,@RequestBody BudgetRequest request) {
         budgetService.updateBudgetById(id, request);
         return ResponseEntity.ok("Budget [" + id + "] Updated");
     }
