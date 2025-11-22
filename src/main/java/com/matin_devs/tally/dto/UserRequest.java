@@ -1,0 +1,12 @@
+package com.matin_devs.tally.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import jakarta.validation.constraints.*;
+
+@Data
+@AllArgsConstructor
+public class UserRequest {
+    @NotBlank(message = "Username is mandatory")
+    private String username;
+}

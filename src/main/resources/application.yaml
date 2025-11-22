@@ -1,3 +1,11 @@
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
   application:
-    name: tally
+    name: tally-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
