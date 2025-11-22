@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "budgets")
@@ -25,9 +26,8 @@ public class Budget {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "expenses_id", nullable = false)
-    private ArrayList<Expense> expenseList;
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Expense> expenseList = new ArrayList<>();
 
     @Builder
     public Budget(Integer frequency, User user) {

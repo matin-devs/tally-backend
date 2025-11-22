@@ -33,7 +33,7 @@ public class Expense {
     private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "budget_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "budget_id", nullable = false)
     private Budget budget;
 
     @Builder
