@@ -6,7 +6,6 @@ import com.matin_devs.tally.exception.UserNotFoundException;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +27,11 @@ public class UserService {
 
     public User getUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    public User getUserById(Long id) throws UserNotFoundException {
+        return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
 }

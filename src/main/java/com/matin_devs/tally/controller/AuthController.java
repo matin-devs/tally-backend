@@ -1,10 +1,8 @@
 package com.matin_devs.tally.controller;
 
-import com.matin_devs.tally.dto.UserRequest;
 import com.matin_devs.tally.exception.UserNotFoundException;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestParam String username){
         try {
             User user = userService.getUserByUsername(username);
-            return ResponseEntity.ok(user.getUsername());
+            return ResponseEntity.ok(user.getId().toString());
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Username not found");
@@ -32,10 +30,10 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestParam String username) {
+    public ResponseEntity<String> logout(@RequestParam String id) {
         try {
-            User user = userService.getUserByUsername(username);
-            return ResponseEntity.ok(user.getUsername());
+            User user = userService.getUserById(Long.valueOf(id));
+            return ResponseEntity.ok(user.getId().toString());
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Username not found");

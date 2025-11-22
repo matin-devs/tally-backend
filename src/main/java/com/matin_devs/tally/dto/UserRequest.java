@@ -3,7 +3,6 @@ package com.matin_devs.tally.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.validation.constraints.*;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
