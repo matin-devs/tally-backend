@@ -45,3 +45,17 @@ jobs:
           fi
 
           echo "✔ Version is valid."
+      - name: Check changelog for version entry
+        run: |
+          VERSION="${{ steps.branch_version.outputs.value }}"
+
+          echo "Checking CHANGELOG.md for version: $VERSION"
+
+          if ! grep -qE "^## \\[$VERSION\\]" CHANGELOG.md; then
+            echo "❌ CHANGELOG.md does not contain an entry for version $VERSION."
+            echo "Expected a section header like:"
+            echo "## [$VERSION] - YYYY-MM-DD"
+            exit 1
+          fi
+
+          echo "✔ CHANGELOG.md contains entry for version $VERSION."
