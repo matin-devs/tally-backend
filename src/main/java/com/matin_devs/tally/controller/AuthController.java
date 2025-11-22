@@ -1,5 +1,7 @@
 package com.matin_devs.tally.controller;
 
+import com.matin_devs.tally.dto.UserRequest;
+import com.matin_devs.tally.exception.UserAlreadyExistsException;
 import com.matin_devs.tally.exception.UserNotFoundException;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.service.UserService;
@@ -19,14 +21,14 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username){
+    public ResponseEntity<String> login(@RequestParam String username) throws UserAlreadyExistsException {
+        User user;
         try {
-            User user = userService.getUserByUsername(username);
-            return ResponseEntity.ok(user.getId().toString());
+            user = userService.getUserByUsername(username);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Username not found");
+            user = userService.createUser(new UserRequest(username));
         }
+        return ResponseEntity.ok(user.getId().toString());
     }
 
     @PostMapping("/logout")
