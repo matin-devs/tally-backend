@@ -1,12 +1,12 @@
 package com.matin_devs.tally.dto;
 
 import com.matin_devs.tally.common.ExpenseCategory;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 
+// TODO: Link Budget ID
 @Data
 @AllArgsConstructor
 public class ExpenseRequest {

@@ -1,14 +1,8 @@
 package com.matin_devs.tally.service;
 
 import com.matin_devs.tally.dto.ExpenseRequest;
-import com.matin_devs.tally.dto.UserRequest;
-import com.matin_devs.tally.exception.ExpenseNotFoundException;
-import com.matin_devs.tally.exception.UserAlreadyExistsException;
-import com.matin_devs.tally.exception.UserNotFoundException;
 import com.matin_devs.tally.model.Expense;
-import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.repository.ExpenseRepository;
-import com.matin_devs.tally.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
+    // TODO: Return void
     public Expense createExpense(ExpenseRequest request) {
 
         Expense expense = Expense.builder()
@@ -30,9 +25,8 @@ public class ExpenseService {
         return expense;
     }
 
-    public Expense getExpenseById(Long id) throws ExpenseNotFoundException {
-        return expenseRepository.findById(id)
-                .orElseThrow(() -> new ExpenseNotFoundException(id));
+    public Expense getExpenseById(Long id) {
+        return expenseRepository.getReferenceById(id);
     }
 
     @Transactional
@@ -43,4 +37,6 @@ public class ExpenseService {
         expense.setCategory(request.getCategory());
         expense.setDate(request.getDate());
     }
+
+    // TODO: Add delete service
 }

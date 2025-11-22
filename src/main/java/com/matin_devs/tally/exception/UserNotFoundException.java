@@ -6,6 +6,6 @@ public class UserNotFoundException extends RuntimeException{
     }
 
     public UserNotFoundException(Long id) {
-        super("Id " + id + " not found, please try again with a different id");
+        super("UUID: [" + id + "] not found, please try again with a different uuid");
     }
 }

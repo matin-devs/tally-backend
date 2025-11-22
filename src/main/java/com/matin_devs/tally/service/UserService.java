@@ -31,8 +31,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(username));
     }
 
-    public User getUserById(Long id) throws UserNotFoundException {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    public User getUserById(Long id) {
+        return userRepository.getReferenceById(id);
     }
 }

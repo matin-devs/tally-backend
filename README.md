@@ -4,6 +4,7 @@ Budgeting Application for tracking spending habits and automating cost managemen
 
 ### Database Architecture
 
+[//]: # (TODO: Add expense_id array in Budget table)
 ![Database Architecture](assets/images/tally-backend-db.png)
 
 
