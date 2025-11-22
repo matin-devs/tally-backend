@@ -15,7 +15,7 @@ public class UserService {
     public User createUser(UserRequest request) throws UserAlreadyExistsException {
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException(request.getUsername());
         }
 
         User user = User.builder()
@@ -28,11 +28,11 @@ public class UserService {
 
     public User getUserByUsername(String username) throws UserNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     public User getUserById(Long id) throws UserNotFoundException {
         return userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }
