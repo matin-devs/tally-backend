@@ -6,6 +6,7 @@ import com.matin_devs.tally.exception.UserNotFoundException;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,12 @@ public class AuthController {
         User user;
         try {
             user = userService.getUserByUsername(username);
+            return ResponseEntity.ok(user.getId().toString());
         } catch (UserNotFoundException e) {
-            // TODO: This should return created not ok as well
             user = userService.createUser(new UserRequest(username));
+            return ResponseEntity.status(HttpStatus.CREATED).body(user.getId().toString());
         }
-        return ResponseEntity.ok(user.getId().toString());
+
     }
 
     @PostMapping("/logout")
