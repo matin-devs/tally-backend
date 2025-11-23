@@ -32,16 +32,16 @@ public class Expense {
     @Column(nullable = false)
     private LocalDate date;
 
-//    @ManyToOne
-//    @JoinColumn(name = "budget_id", nullable = false)
-//    private Budget budget;
+    @ManyToOne
+    @JoinColumn(name = "budget_id", nullable = false)
+    private Budget budget;
 
     @Builder
-    public Expense(String title, ExpenseCategory category, Float amount, LocalDate date/*, Budget budget*/) {
+    public Expense(String title, ExpenseCategory category, Float amount, LocalDate date, Budget budget) {
         this.title = title;
         this.category = category;
         this.amount = amount;
         this.date = date;
-//        this.budget = budget;
+        this.budget = budget;
     }
 }
