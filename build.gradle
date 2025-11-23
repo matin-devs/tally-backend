@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.matin-devs'
-version = '0.0.4-SNAPSHOT'
+version = '0.0.5-SNAPSHOT'
 description = 'Tally - Budgeting Backend Application'
 
 java {
@@ -40,4 +40,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+
+
+
+
+
 

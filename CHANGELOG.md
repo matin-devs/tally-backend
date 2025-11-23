@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.0.5
+] - 2025-11-23 --DRAFT--
+
+### Added
+- 
+### Changed
+- 
+### Fixed
+- 
+
 ## [0.0.5] - 2025-11-23
 ### Fixed
 - Github action to check version number, ensuring it verifies before pushing to main
@@ -33,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial project artifacts
 - CI Setup for version checking
+
 
 
 
