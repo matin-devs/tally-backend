@@ -59,6 +59,17 @@ jobs:
           fi
 
           echo "✔ CHANGELOG.md contains entry for version $VERSION."
+      - name: Ensure DRAFT tag removed from changelog
+        run: |
+          echo "Checking for DRAFT tags in CHANGELOG.md..."
+
+          if grep -q -- "--DRAFT--" CHANGELOG.md; then
+            echo "❌ CHANGELOG.md contains a DRAFT version section."
+            echo "Remove '--DRAFT--' before merging."
+            exit 1
+          fi
+
+          echo "✔ No DRAFT tags found in CHANGELOG.md."  
       - name: Check gradle build for version update
         run: |
           VERSION="${{ steps.branch_version.outputs.value }}"
