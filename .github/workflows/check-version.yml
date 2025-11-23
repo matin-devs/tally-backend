@@ -1,11 +1,9 @@
 name: Check Version
 
 on:
-  push:
-    pull_request:
-      branches:
-        - main          # Only PRs targeting main
-
+  pull_request:
+    branches:
+      - main          # Only PRs targeting main
 
 jobs:
   compare-version:

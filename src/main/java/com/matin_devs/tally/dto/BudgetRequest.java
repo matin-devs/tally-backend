@@ -10,5 +10,5 @@ import java.util.Set;
 public class BudgetRequest {
     private Long userId;
     private Integer frequency;
-    private Set<Long> expenseList;
+    private Set<Long> expenseIdList;
 }

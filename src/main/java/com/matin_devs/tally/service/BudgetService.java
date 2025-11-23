@@ -63,7 +63,7 @@ public class BudgetService {
 
         // get all expenses and set to new array
         Set<Expense> expenses = budget.getExpenseList();
-        Set<Long> requestExpenseList = request.getExpenseList();
+        Set<Long> requestExpenseList = request.getExpenseIdList();
         for (Long expense : requestExpenseList) {
             expenses.add(expenseRepository.getReferenceById(expense));
         }

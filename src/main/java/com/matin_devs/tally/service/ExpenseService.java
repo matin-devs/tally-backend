@@ -7,12 +7,14 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     // TODO: Return void
-    public Expense createExpense(ExpenseRequest request) {
+    public Expense addExpense(ExpenseRequest request) {
 
         Expense expense = Expense.builder()
                 .title(request.getTitle())
@@ -29,6 +31,10 @@ public class ExpenseService {
         return expenseRepository.getReferenceById(id);
     }
 
+    public List<Expense> getExpensesByBudgetId(Long budgetId) {
+        return expenseRepository.findByBudgetId(budgetId);
+    }
+
     @Transactional
     public void updateExpense(Long id, ExpenseRequest request) {
         Expense expense = getExpenseById(id);
@@ -38,5 +44,7 @@ public class ExpenseService {
         expense.setDate(request.getDate());
     }
 
-    // TODO: Add delete service
+    public void deleteExpense(Long id) {
+        expenseRepository.deleteById(id);
+    }
 }
