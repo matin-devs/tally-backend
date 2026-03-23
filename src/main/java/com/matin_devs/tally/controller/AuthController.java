@@ -25,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) throws UserAlreadyExistsException {
-        //TODO: add password verification
+        //TODO: add password verification and JWT security verification for all endpoints
         User user;
         try {
             user = userService.getUserByUsername(authRequest.getUsername());
