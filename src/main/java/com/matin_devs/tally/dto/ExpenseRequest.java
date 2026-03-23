@@ -1,19 +1,19 @@
 package com.matin_devs.tally.dto;
 
-import com.matin_devs.tally.common.ExpenseCategory;
-import com.matin_devs.tally.model.Budget;
+import com.matin_devs.tally.model.TransactionCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class ExpenseRequest {
+    private ZonedDateTime timestamp;
     private String title;
-    private ExpenseCategory category;
+    private TransactionCategory category;
     private Float amount;
-    private LocalDate date;
-    private Set<Long> budgetId;
+    private Set<UUID> budgetId;
 }

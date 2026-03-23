@@ -1,13 +1,20 @@
 package com.matin_devs.tally.model;
 
-import com.matin_devs.tally.common.ExpenseCategory;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,28 +28,30 @@ public class Expense {
     private UUID id;
 
     @Column(nullable = false)
-    private String title;
+    private ZonedDateTime timestamp;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ExpenseCategory category;
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = true)
+    private TransactionCategory category;
 
     @Column(nullable = false)
     private Float amount;
 
-    @Column(nullable = false)
-    private LocalDate date;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "budget_id", nullable = false)
     private Budget budget;
 
     @Builder
-    public Expense(String title, ExpenseCategory category, Float amount, LocalDate date, Budget budget) {
+    public Expense(String title, TransactionCategory category, Float amount, Budget budget, ZonedDateTime timestamp) {
+        this.timestamp = timestamp;
         this.title = title;
         this.category = category;
         this.amount = amount;
-        this.date = date;
         this.budget = budget;
     }
 }

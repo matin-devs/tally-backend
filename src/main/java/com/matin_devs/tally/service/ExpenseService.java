@@ -8,43 +8,43 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
-    // TODO: Return void
-    public Expense addExpense(ExpenseRequest request) {
+    public Expense createExpense(ExpenseRequest request) {
 
         Expense expense = Expense.builder()
+                .timestamp(request.getTimestamp())
                 .title(request.getTitle())
                 .category(request.getCategory())
                 .amount(request.getAmount())
-                .date(request.getDate())
                 .build();
 
         expenseRepository.save(expense);
         return expense;
     }
 
-    public Expense getExpenseById(Long id) {
+    public Expense getExpenseById(UUID id) {
         return expenseRepository.getReferenceById(id);
     }
 
-    public List<Expense> getExpensesByBudgetId(Long budgetId) {
+    public List<Expense> getExpensesByBudgetId(UUID budgetId) {
         return expenseRepository.findByBudgetId(budgetId);
     }
 
     @Transactional
-    public void updateExpense(Long id, ExpenseRequest request) {
+    public void updateExpenseById(UUID id, ExpenseRequest request) {
         Expense expense = getExpenseById(id);
+        expense.setTimestamp(request.getTimestamp());
         expense.setTitle(request.getTitle());
         expense.setAmount(request.getAmount());
         expense.setCategory(request.getCategory());
-        expense.setDate(request.getDate());
     }
 
-    public void deleteExpense(Long id) {
+    public void deleteExpenseById(UUID id) {
         expenseRepository.deleteById(id);
     }
 }

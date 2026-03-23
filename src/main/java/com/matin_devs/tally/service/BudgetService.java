@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -45,7 +46,7 @@ public class BudgetService {
      * @return Budget instance which is linked to the user
      * @throws BudgetNotFoundForUserException if no budgets are set for user
      */
-    public Budget getBudgetByUserId(Long userId) throws BudgetNotFoundForUserException {
+    public Budget getBudgetByUserId(UUID userId) throws BudgetNotFoundForUserException {
         User user = userRepository.getReferenceById(userId);
         return budgetRepository.findByUser(user)
                 .orElseThrow(() -> new BudgetNotFoundForUserException(user));
@@ -57,14 +58,14 @@ public class BudgetService {
      * @param request Budget Data Transfer Object
      */
     @Transactional
-    public void updateBudgetById(Long id, BudgetRequest request) {
+    public void updateBudgetById(UUID id, BudgetRequest request) {
         // get Budget by ID
         Budget budget = budgetRepository.getReferenceById(id);
 
         // get all expenses and set to new array
         Set<Expense> expenses = budget.getExpenseList();
-        Set<Long> requestExpenseList = request.getExpenseIdList();
-        for (Long expense : requestExpenseList) {
+        Set<UUID> requestExpenseList = request.getExpenseIdList();
+        for (UUID expense : requestExpenseList) {
             expenses.add(expenseRepository.getReferenceById(expense));
         }
 
@@ -77,7 +78,7 @@ public class BudgetService {
      * delete Budget instance using ID
      * @param id for Budget class
      */
-    public void deleteBudgetById(Long id) {
+    public void deleteBudgetById(UUID id) {
         budgetRepository.deleteById(id);
     }
 }

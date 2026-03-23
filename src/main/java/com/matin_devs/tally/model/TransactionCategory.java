@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,26 +18,21 @@ import lombok.ToString;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
 @Data
 @NoArgsConstructor
 @ToString
-@AllArgsConstructor
 @Builder
-public class User {
+@AllArgsConstructor
+@Table(name = "transaction_categories", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "name"}))
+public class TransactionCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
-    //TODO: Encode password before storing in db
     @Column(nullable = false)
-    private String password;
+    private String name;
 
-    @Builder
-    public User(String username) {
-        this.username = username;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

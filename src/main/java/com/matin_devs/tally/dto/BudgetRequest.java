@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class BudgetRequest {
-    private Long userId;
+    private UUID userId;
     private Integer frequency;
-    private Set<Long> expenseIdList;
+    private Set<UUID> expenseIdList;
 }
