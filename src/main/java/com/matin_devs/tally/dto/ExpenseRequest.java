@@ -4,6 +4,7 @@ import com.matin_devs.tally.model.TransactionCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +15,6 @@ public class ExpenseRequest {
     private ZonedDateTime timestamp;
     private String title;
     private TransactionCategory category;
-    private Float amount;
+    private BigDecimal amount;
     private Set<UUID> budgetId;
 }

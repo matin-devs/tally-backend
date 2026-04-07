@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ import java.util.UUID;
 @ToString
 public class Expense {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -34,11 +35,11 @@ public class Expense {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = true)
+    @JoinColumn(name = "category_id", nullable = true, unique = true)
     private TransactionCategory category;
 
     @Column(nullable = false)
-    private Float amount;
+    private BigDecimal amount;
 
     private String description;
 
@@ -47,7 +48,7 @@ public class Expense {
     private Budget budget;
 
     @Builder
-    public Expense(String title, TransactionCategory category, Float amount, Budget budget, ZonedDateTime timestamp) {
+    public Expense(String title, TransactionCategory category, BigDecimal amount, Budget budget, ZonedDateTime timestamp) {
         this.timestamp = timestamp;
         this.title = title;
         this.category = category;

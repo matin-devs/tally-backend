@@ -26,7 +26,7 @@ import java.util.UUID;
 @Table(name = "transaction_categories", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "name"}))
 public class TransactionCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)

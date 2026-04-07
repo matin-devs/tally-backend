@@ -1,18 +1,20 @@
 package com.matin_devs.tally.service;
 
-import com.matin_devs.tally.dto.BudgetRequest;
+import com.matin_devs.tally.common.TimePeriod;
 import com.matin_devs.tally.exception.BudgetNotFoundForUserException;
 import com.matin_devs.tally.model.Budget;
-import com.matin_devs.tally.model.Expense;
+import com.matin_devs.tally.model.TransactionCategory;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.repository.BudgetRepository;
 import com.matin_devs.tally.repository.ExpenseRepository;
 import com.matin_devs.tally.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -24,15 +26,11 @@ public class BudgetService {
 
     /**
      * Adds budget to the database
-     * @param request Budget Data Transfer Object
      */
-    public void addBudget(BudgetRequest request) {
-        // validate user ID for sending to budget constructor
-        User user = userRepository.getReferenceById(request.getUserId());
-
+    public void addBudget(User user, TimePeriod frequency) {
         // build budget
         Budget budget = Budget.builder()
-                .frequency(request.getFrequency())
+                .frequency(frequency)
                 .user(user)
                 .build();
 
@@ -55,23 +53,13 @@ public class BudgetService {
     /**
      * Updates existing budget
      * @param id budget ID for tracking
-     * @param request Budget Data Transfer Object
      */
     @Transactional
-    public void updateBudgetById(UUID id, BudgetRequest request) {
+    public void updateBudgetById(UUID id) {
         // get Budget by ID
         Budget budget = budgetRepository.getReferenceById(id);
 
-        // get all expenses and set to new array
-        Set<Expense> expenses = budget.getExpenseList();
-        Set<UUID> requestExpenseList = request.getExpenseIdList();
-        for (UUID expense : requestExpenseList) {
-            expenses.add(expenseRepository.getReferenceById(expense));
-        }
-
-        // a user should be able to add to all fields besides which user the budget is set to
-        budget.setFrequency(request.getFrequency());
-        budget.setExpenseList(expenses);
+        //TODO: Up
     }
 
     /**
@@ -80,5 +68,14 @@ public class BudgetService {
      */
     public void deleteBudgetById(UUID id) {
         budgetRepository.deleteById(id);
+    }
+
+    public void updateBudgetCategory(
+            @AuthenticationPrincipal User user,
+            TransactionCategory category,
+            BigDecimal newAmount) {
+
+        Budget userBudget = getBudgetByUserId(user.getId());
+        userBudget.getCategoryBudgets().put(category, newAmount);
     }
 }
