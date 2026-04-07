@@ -4,12 +4,23 @@ import com.matin_devs.tally.dto.ExpenseRequest;
 import com.matin_devs.tally.exception.ExpenseNotFoundException;
 import com.matin_devs.tally.model.Expense;
 import com.matin_devs.tally.service.ExpenseService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-// TODO: A get_all_by_budget_id function
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/expense")
 @AllArgsConstructor
@@ -17,35 +28,46 @@ public class ExpenseController {
 
     private ExpenseService expenseService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getExpenseById(@RequestParam UUID id) {
+        try {
+            return ResponseEntity.ok(expenseService.getExpenseById(id).toString());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Expense not found");
+        }
+    }
+
+    @GetMapping("/budget/{budgetId}")
+    public ResponseEntity<List<Expense>> getExpensesByBudgetId(@RequestParam UUID budgetId) {
+        List<Expense> budgetExpenses = expenseService.getExpensesByBudgetId(budgetId);
+        return ResponseEntity.ok(budgetExpenses);
+    }
+
     @PostMapping
-    public ResponseEntity<String> addExpense(@RequestBody ExpenseRequest request) {
-        // TODO: Best practice to have service and controller use the same function name
-        // TODO: Should check if expense is already added
+    public ResponseEntity<String> createExpense(@RequestBody ExpenseRequest request) {
         Expense expense = expenseService.createExpense(request);
         return ResponseEntity.ok(expense.toString());
     }
 
-    // TODO: GetMapping for expenses
-
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateExpense(@PathVariable Long id, ExpenseRequest request) {
+    public ResponseEntity<String> updateExpenseById(@PathVariable UUID id, ExpenseRequest request) {
         try {
-            expenseService.updateExpense(id, request);
+            expenseService.updateExpenseById(id, request);
             return ResponseEntity.ok("Expense with id " + id + " successfully updated");
-        } catch (ExpenseNotFoundException e){
+        } catch (ExpenseNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Expense not found");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteExpense(@PathVariable Long id) {
+    public ResponseEntity<String> deleteExpenseById(@PathVariable UUID id) {
         try {
-            // TODO: Add delete functionality to router
-            return ResponseEntity.ok(expenseService.getExpenseById(id).getId().toString());
-        } catch (ExpenseNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Expense not found");
+            expenseService.deleteExpenseById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id.toString());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Exception ID is not valid");
         }
     }
 }
