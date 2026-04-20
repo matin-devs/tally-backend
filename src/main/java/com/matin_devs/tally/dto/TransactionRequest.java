@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class ExpenseRequest {
+public class TransactionRequest {
     private ZonedDateTime timestamp;
     private String title;
     private TransactionCategory category;

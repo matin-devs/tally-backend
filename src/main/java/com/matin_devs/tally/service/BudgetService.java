@@ -6,7 +6,7 @@ import com.matin_devs.tally.model.Budget;
 import com.matin_devs.tally.model.TransactionCategory;
 import com.matin_devs.tally.model.User;
 import com.matin_devs.tally.repository.BudgetRepository;
-import com.matin_devs.tally.repository.ExpenseRepository;
+import com.matin_devs.tally.repository.TransactionRepository;
 import com.matin_devs.tally.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class BudgetService {
     private final BudgetRepository budgetRepository;
     private final UserRepository userRepository;
-    private final ExpenseRepository expenseRepository;
+    private final TransactionRepository expenseRepository;
 
     /**
      * Adds budget to the database

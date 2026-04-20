@@ -19,11 +19,11 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "expenses")
+@Table(name = "transactions")
 @Data
 @NoArgsConstructor
 @ToString
-public class Expense {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -48,7 +48,7 @@ public class Expense {
     private Budget budget;
 
     @Builder
-    public Expense(String title, TransactionCategory category, BigDecimal amount, Budget budget, ZonedDateTime timestamp) {
+    public Transaction(String title, TransactionCategory category, BigDecimal amount, Budget budget, ZonedDateTime timestamp) {
         this.timestamp = timestamp;
         this.title = title;
         this.category = category;

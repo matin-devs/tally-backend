@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-import static com.matin_devs.tally.common.CommonConstants.TRANSACTION_CATEGORIES;
+import static com.matin_devs.tally.common.CommonConstants.INITIAL_TRANSACTION_CATEGORIES;
 
 @Service
 @AllArgsConstructor
@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        TRANSACTION_CATEGORIES
+        INITIAL_TRANSACTION_CATEGORIES
                 .forEach(category -> categoryService.createCategory(
                         CategoryRequest.builder()
                                 .name(category)
